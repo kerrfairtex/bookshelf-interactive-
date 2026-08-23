@@ -1003,23 +1003,30 @@ canvas:focus-visible {
 
 /* ── Sign-in chip (top-left, staff entry to the library desk) ── */
 .signin-chip {
-  position: fixed;
-  top: 14px;
-  left: 16px;
-  z-index: 30;
+  pointer-events: auto; /* header is pointer-events:none — re-enable for the chip */
+  margin-left: auto; /* push to right edge of the header row */
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 1rem;
   border-radius: 999px;
-  background: rgba(20, 24, 20, 0.55);
-  color: #f2efe2;
-  font-size: 0.82rem;
-  font-weight: 600;
+  background: #408540;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
   letter-spacing: 0.03em;
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(242, 239, 226, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   transition: background 0.15s ease, transform 0.12s ease;
+}
+/* keep the header row flexed so the chip lands on the right */
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.site-header .wordmark {
+  margin-right: auto;
 }
 .signin-chip:hover {
   background: rgba(64, 133, 64, 0.75);
