@@ -28,6 +28,38 @@ export function ProgressLibrary() {
   );
   const isFocused = mode !== "browse";
 
+  /* Live availability: refresh copy counts from the TRAC desk API so the
+   * shelf never shows stale build-time numbers. Falls back silently to the
+   * static snapshot if the desk is unreachable. */
+  const [, setAvailabilityTick] = useState(0);
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/shelf-availability", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { isbn: string; available_copies: number; total_copies: number }[] | null) => {
+        if (cancelled || !Array.isArray(data)) return;
+        const byIsbn = new Map(data.map((d) => [d.isbn, d]));
+        for (const book of catalog) {
+          const live = book.isbn ? byIsbn.get(book.isbn) : undefined;
+          if (!live) continue;
+          book.availableCopies = live.available_copies;
+          book.totalCopies = live.total_copies;
+          book.availability =
+            live.available_copies > 0
+              ? `${live.available_copies} of ${live.total_copies} available`
+              : "All copies checked out";
+        }
+        setAvailabilityTick((t) => t + 1);
+      })
+      .catch(() => {
+        /* offline / desk unreachable — keep static snapshot */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+
   useEffect(() => {
     let cancelled = false;
     let engine: import("./ShelfEngine").ShelfEngine | null = null;
@@ -187,10 +219,12 @@ export function ProgressLibrary() {
                 {selectedBook.description}
               </p>
 
-              <blockquote>
-                <p>“{selectedBook.quote}”</p>
-                <cite>{selectedBook.quoteBy}</cite>
-              </blockquote>
+              {selectedBook.quote && (
+                <blockquote>
+                  <p>“{selectedBook.quote}”</p>
+                  <cite>{selectedBook.quoteBy}</cite>
+                </blockquote>
+              )}
 
               <dl>
                 <div>

@@ -1185,10 +1185,13 @@ export class ShelfEngine {
     try {
       const [{ OBJLoader }, booksResponse, objResponse] = await Promise.all([
         import("three/addons/loaders/OBJLoader.js"),
-        fetch(`${STRIPE_ASSET_ROOT}/books.json`),
-        fetch(`${STRIPE_ASSET_ROOT}/mesh/stripe-press-book.obj`),
+        fetch(`${STRIPE_ASSET_ROOT}/books.json`).catch(() => null),
+        fetch(`${STRIPE_ASSET_ROOT}/mesh/stripe-press-book.obj`).catch(() => null),
       ]);
-      if (!booksResponse.ok || !objResponse.ok) {
+      // A separately licensed local archive is optional: absent network
+      // responses (clean clone) or non-200s both fall back to procedural
+      // covers without console noise.
+      if (!booksResponse || !objResponse || !booksResponse.ok || !objResponse.ok) {
         throw new Error("Stripe Press asset archive unavailable");
       }
       const bookAssets = (await booksResponse.json()) as StripeBookAsset[];

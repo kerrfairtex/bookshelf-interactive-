@@ -11,8 +11,18 @@ export const siteConfig = {
   spineMark: "TL",
   bookLinkLabel: "Borrow this book",
   socialImageAlt:
-    "The Complete Shelf, with tactile abstract hardcovers and one book pulled forward on a walnut shelf.",
+    "TRAC Library interactive 3D bookshelf, with procedural hardcovers and one book pulled forward on a walnut shelf.",
   independentNote:
     "TRAC Library · Institute of Agricultural Sciences, Bongao, Tawi-Tawi · SMARTCAMP-K12.",
-  siteUrl: "https://complete-shelf.vercel.app",
+  siteUrl: "https://library-cp22.onrender.com",
 } as const;
+
+/**
+ * Resolve a borrow URL for the TRAC desk app. Uses NEXT_PUBLIC_LIBRARY_ORIGIN
+ * when set so the shelf works from any deployment origin; falls back to a
+ * same-origin path.
+ */
+export function borrowUrl(isbn: string): string {
+  const origin = process.env.NEXT_PUBLIC_LIBRARY_ORIGIN?.replace(/\/$/, "");
+  return origin ? `${origin}/borrow?isbn=${encodeURIComponent(isbn)}` : `/borrow?isbn=${encodeURIComponent(isbn)}`;
+}

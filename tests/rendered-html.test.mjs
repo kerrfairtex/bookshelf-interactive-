@@ -23,7 +23,7 @@ async function render() {
   );
 }
 
-test("server-renders the complete editorial bookshelf shell", async () => {
+test("server-renders the TRAC Library bookshelf shell", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -31,40 +31,24 @@ test("server-renders the complete editorial bookshelf shell", async () => {
   const html = await response.text();
   assert.match(
     html,
-    /<title>The Complete Shelf — An Interactive 3D Library<\/title>/i,
+    /<title>TRAC Library — Interactive 3D Bookshelf<\/title>/i,
   );
   assert.match(html, /data-testid="shelf-canvas"/);
   assert.match(html, /data-testid="inspect-active"/);
-  assert.match(html, /Poor Charlie’s Almanack/);
-  assert.match(html, /Browse to High Growth Handbook/);
-  const shelfOrder = [
-    "Maintenance: Of Everything, Part One",
-    "The Dream Machine",
-    "The Scaling Era",
-    "The Art of Doing Science and Engineering",
-    "Poor Charlie’s Almanack",
-    "High Growth Handbook",
-    "The Origins of Efficiency",
-    "Scaling People",
-    "The Revolt of the Public",
-    "The Big Score",
-    "An Elegant Puzzle",
-    "Boom: Bubbles and the End of Stagnation",
-    "The Making of Prince of Persia",
-    "Where Is My Flying Car?",
-    "Pieces of the Action",
-    "Working in Public",
-    "Get Together",
-    "Scientific Freedom",
-    "Stubborn Attachments",
-  ];
-  const renderedPositions = shelfOrder.map((title) =>
+  assert.doesNotMatch(html, /Poor Charlie|Complete Shelf|Stripe Press/i);
+  // Catalog must render browse hints for real TRAC titles in shelf order.
+  const catalogModule = await import(new URL("../app/catalog.ts", import.meta.url));
+  const { catalog } = catalogModule;
+  assert.ok(catalog.length >= 25, `expected the full TRAC collection, got ${catalog.length}`);
+  const firstSix = catalog.slice(0, 6).map((b) => b.title);
+  const renderedPositions = firstSix.map((title) =>
     html.indexOf(`Browse to ${title}`),
   );
   assert.ok(renderedPositions.every((position) => position >= 0));
   assert.deepEqual(renderedPositions, [...renderedPositions].sort((a, b) => a - b));
+  // Borrow CTAs resolve against the library desk origin.
+  assert.ok(catalog.every((b) => b.url.includes("/borrow?isbn=")));
   assert.match(html, /og:image/);
-  assert.match(html, /\/social-card\.webp/);
   assert.match(html, /summary_large_image/);
   assert.match(html, /1200/);
   assert.match(html, /630/);

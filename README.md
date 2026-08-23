@@ -1,4 +1,4 @@
-# The Complete Shelf
+# TRAC Library 3D Bookshelf
 
 Fork of [mintdotgg/bookshelf](https://github.com/mintdotgg/bookshelf).
 
