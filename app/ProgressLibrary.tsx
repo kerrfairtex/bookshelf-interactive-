@@ -207,13 +207,11 @@ export function ProgressLibrary() {
                 className="official-link"
                 data-testid="official-link"
                 href={selectedBook.url}
-                target="_blank"
-                rel="noreferrer"
               >
                 <span>
                   {selectedBook.linkLabel ?? siteConfig.bookLinkLabel}
                 </span>
-                <span aria-hidden="true">↗</span>
+                <span aria-hidden="true">→</span>
               </a>
             </div>
 

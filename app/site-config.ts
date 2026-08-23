@@ -1,18 +1,18 @@
 export const siteConfig = {
-  title: "The Complete Shelf — An Interactive 3D Library",
-  applicationName: "The Complete Shelf",
+  title: "TRAC Library — Interactive 3D Bookshelf",
+  applicationName: "TRAC Library",
   description:
-    "Explore a tactile 3D bookshelf with procedural hardcovers and optional contributor-owned cover art.",
-  wordmark: "THE COMPLETE SHELF",
-  collectionName: "AN INTERACTIVE 3D LIBRARY",
+    "Browse the TRAC Library collection on a tactile 3D bookshelf. Pull a book forward to see details and borrow it.",
+  wordmark: "TRAC LIBRARY",
+  collectionName: "INTERACTIVE 3D BOOKSHELF",
   editionEyebrow: "LIBRARY EDITION",
-  coverImprint: "THE COMPLETE SHELF",
-  coverTagline: "AN INTERACTIVE LIBRARY",
-  spineMark: "CS",
-  bookLinkLabel: "View book",
+  coverImprint: "TRAC LIBRARY",
+  coverTagline: "SMARTCAMP-K12",
+  spineMark: "TL",
+  bookLinkLabel: "Borrow this book",
   socialImageAlt:
     "The Complete Shelf, with tactile abstract hardcovers and one book pulled forward on a walnut shelf.",
   independentNote:
-    "Independent open-source project. Not affiliated with or endorsed by Stripe.",
+    "TRAC Library · Institute of Agricultural Sciences, Bongao, Tawi-Tawi · SMARTCAMP-K12.",
   siteUrl: "https://complete-shelf.vercel.app",
 } as const;
