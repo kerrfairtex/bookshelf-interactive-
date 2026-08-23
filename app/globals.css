@@ -999,3 +999,32 @@ canvas:focus-visible {
     transition-delay: 0ms !important;
   }
 }
+
+
+/* ── Sign-in chip (top-left, staff entry to the library desk) ── */
+.signin-chip {
+  position: fixed;
+  top: 14px;
+  left: 16px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(20, 24, 20, 0.55);
+  color: #f2efe2;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(242, 239, 226, 0.25);
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+.signin-chip:hover {
+  background: rgba(64, 133, 64, 0.75);
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .signin-chip { transition: none; }
+}

@@ -13,6 +13,10 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
+const libraryOrigin = (
+  process.env.NEXT_PUBLIC_LIBRARY_ORIGIN ?? ""
+).replace(/\/$/, "");
+
 export function ProgressLibrary() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<import("./ShelfEngine").ShelfEngine | null>(null);
@@ -111,10 +115,28 @@ export function ProgressLibrary() {
           className="wordmark"
           aria-label={`${siteConfig.wordmark}, ${siteConfig.collectionName}`}
         >
+          {/* TRAC seal — same logo as the library desk app */}
+          <img
+            src="/trac-logo-192.png"
+            alt=""
+            width={34}
+            height={34}
+            style={{ borderRadius: "50%", verticalAlign: "middle" }}
+          />
           <span>{siteConfig.wordmark}</span>
           <span className="wordmark__divider" />
           <span>{siteConfig.collectionName}</span>
         </div>
+
+        {/* Sign in — staff/admin entry to the library desk (Koha-style home).
+            Placed top-left so it never collides with the Borrow flow. */}
+        <a
+          className="signin-chip"
+          href={`${libraryOrigin}/login`}
+          aria-label="Sign in to TRAC Library desk"
+        >
+          <span aria-hidden>👤</span> Sign in
+        </a>
       </header>
 
       <section

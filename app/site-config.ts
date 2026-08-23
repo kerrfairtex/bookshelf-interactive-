@@ -1,5 +1,5 @@
 export const siteConfig = {
-  title: "TRAC Library — Interactive 3D Bookshelf",
+  title: "TRAC Library — 3D Bookshelf",
   applicationName: "TRAC Library",
   description:
     "Browse the TRAC Library collection on a tactile 3D bookshelf. Pull a book forward to see details and borrow it.",
